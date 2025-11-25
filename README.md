@@ -358,3 +358,13 @@ LoginPage ← Registrasi Link
 - ⏳ TODO: Implementasi autentikasi real
 - ⏳ TODO: Error handling yang lebih komprehensif
 
+## Hasil SS
+
+<img width="614" height="872" alt="Image" src="https://github.com/user-attachments/assets/2897e83d-9ced-43e1-869e-8d2b9fb193d9" />
+<img width="620" height="872" alt="Image" src="https://github.com/user-attachments/assets/440dcc7c-fdd4-4805-a45c-a29a132c0037" />
+<img width="615" height="870" alt="Image" src="https://github.com/user-attachments/assets/b2dfa123-53a4-4882-ac76-cd28f702c444" />
+<img width="614" height="874" alt="Image" src="https://github.com/user-attachments/assets/882cdfaa-0cd8-4535-a084-3b0115b77a00" />
+<img width="613" height="874" alt="Image" src="https://github.com/user-attachments/assets/d53838e4-a49c-442c-a5c9-eeb452fdefe3" />
+<img width="617" height="873" alt="Image" src="https://github.com/user-attachments/assets/1032c38d-c94c-4ef8-9dcc-1b310c81f65a" />
+<img width="619" height="878" alt="Image" src="https://github.com/user-attachments/assets/80ca6af8-ffd9-477f-a098-c2c5986079dc" />
+<img width="610" height="872" alt="Image" src="https://github.com/user-attachments/assets/51d815a6-bb00-40dd-a28b-a2ebd2d69c8d" />
