@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:tokokita/ui/login_page.dart';
+import 'package:tokokita/bloc/registrasi_bloc.dart';
+import 'package:tokokita/widget/success_dialog.dart';
+import 'package:tokokita/widget/warning_dialog.dart';
 
 class RegistrasiPage extends StatefulWidget {
   const RegistrasiPage({Key? key}) : super(key: key);
@@ -10,17 +12,17 @@ class RegistrasiPage extends StatefulWidget {
 
 class _RegistrasiPageState extends State<RegistrasiPage> {
   final _formKey = GlobalKey<FormState>();
+  bool _isLoading = false;
 
   final _namaTextboxController = TextEditingController();
   final _emailTextboxController = TextEditingController();
   final _passwordTextboxController = TextEditingController();
-  final _passwordKonfirmasiTextboxController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Registrasi - Edwi"),
+        title: const Text("Registrasi"),
       ),
       body: SingleChildScrollView(
         child: Padding(
@@ -30,18 +32,11 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const SizedBox(height: 20),
                 _namaTextField(),
-                const SizedBox(height: 20),
                 _emailTextField(),
-                const SizedBox(height: 20),
                 _passwordTextField(),
-                const SizedBox(height: 20),
                 _passwordKonfirmasiTextField(),
-                const SizedBox(height: 30),
                 _buttonRegistrasi(),
-                const SizedBox(height: 20),
-                _menuLogin(),
               ],
             ),
           ),
@@ -50,14 +45,10 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     );
   }
 
-  // Textbox Nama
+  // Membuat Textbox Nama
   Widget _namaTextField() {
     return TextFormField(
-      decoration: const InputDecoration(
-        labelText: "Nama",
-        border: OutlineInputBorder(),
-        prefixIcon: Icon(Icons.person),
-      ),
+      decoration: const InputDecoration(labelText: "Nama"),
       keyboardType: TextInputType.text,
       controller: _namaTextboxController,
       validator: (value) {
@@ -69,14 +60,10 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     );
   }
 
-  // Textbox Email
+  // Membuat Textbox Email
   Widget _emailTextField() {
     return TextFormField(
-      decoration: const InputDecoration(
-        labelText: "Email",
-        border: OutlineInputBorder(),
-        prefixIcon: Icon(Icons.email),
-      ),
+      decoration: const InputDecoration(labelText: "Email"),
       keyboardType: TextInputType.emailAddress,
       controller: _emailTextboxController,
       validator: (value) {
@@ -84,7 +71,6 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
           return 'Email harus diisi';
         }
 
-        // Validasi format email
         Pattern pattern =
             r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
         RegExp regex = RegExp(pattern.toString());
@@ -92,19 +78,16 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
         if (!regex.hasMatch(value)) {
           return "Email tidak valid";
         }
+
         return null;
       },
     );
   }
 
-  // Textbox Password
+  // Membuat Textbox Password
   Widget _passwordTextField() {
     return TextFormField(
-      decoration: const InputDecoration(
-        labelText: "Password",
-        border: OutlineInputBorder(),
-        prefixIcon: Icon(Icons.lock),
-      ),
+      decoration: const InputDecoration(labelText: "Password"),
       keyboardType: TextInputType.text,
       obscureText: true,
       controller: _passwordTextboxController,
@@ -117,17 +100,12 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     );
   }
 
-  // Textbox Konfirmasi Password
+  // Membuat Textbox Konfirmasi Password
   Widget _passwordKonfirmasiTextField() {
     return TextFormField(
-      decoration: const InputDecoration(
-        labelText: "Konfirmasi Password",
-        border: OutlineInputBorder(),
-        prefixIcon: Icon(Icons.lock),
-      ),
+      decoration: const InputDecoration(labelText: "Konfirmasi Password"),
       keyboardType: TextInputType.text,
       obscureText: true,
-      controller: _passwordKonfirmasiTextboxController,
       validator: (value) {
         if (value != _passwordTextboxController.text) {
           return "Konfirmasi Password tidak sama";
@@ -137,50 +115,52 @@ class _RegistrasiPageState extends State<RegistrasiPage> {
     );
   }
 
-  // Tombol Registrasi
+  // Membuat Tombol Registrasi
   Widget _buttonRegistrasi() {
-    return SizedBox(
-      width: double.infinity,
-      child: ElevatedButton(
-        child: const Padding(
-          padding: EdgeInsets.symmetric(vertical: 12.0),
-          child: Text("Registrasi", style: TextStyle(fontSize: 16)),
-        ),
-        onPressed: () {
-          bool validate = _formKey.currentState!.validate();
-          if (validate) {
-            // TODO: proses registrasi API
-
-            // Navigasi ke Login Page setelah registrasi berhasil
-            Navigator.pushReplacement(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const LoginPage(),
-              ),
-            );
-          }
-        },
-      ),
+    return ElevatedButton(
+      child: const Text("Registrasi"),
+      onPressed: () {
+        var validate = _formKey.currentState!.validate();
+        if (validate) {
+          if (!_isLoading) _submit();
+        }
+      },
     );
   }
 
-  // Menu menuju Login
-  Widget _menuLogin() {
-    return Center(
-      child: InkWell(
-        child: const Text(
-          "Sudah punya akun? Login di sini",
-          style: TextStyle(color: Colors.blue, fontSize: 14),
+  void _submit() {
+    _formKey.currentState!.save();
+    setState(() {
+      _isLoading = true;
+    });
+
+    RegistrasiBloc.registrasi(
+      nama: _namaTextboxController.text,
+      email: _emailTextboxController.text,
+      password: _passwordTextboxController.text,
+    ).then((value) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => SuccessDialog(
+          description: "Registrasi berhasil, silahkan login",
+          okClick: () {
+            Navigator.pop(context);
+          },
         ),
-        onTap: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const LoginPage(),
-            ),
-          );
-        },
-      ),
-    );
+      );
+    }, onError: (error) {
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (BuildContext context) => const WarningDialog(
+          description: "Registrasi gagal, silahkan coba lagi",
+        ),
+      );
+    });
+
+    setState(() {
+      _isLoading = false;
+    });
   }
 }

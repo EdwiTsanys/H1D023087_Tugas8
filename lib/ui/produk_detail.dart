@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:tokokita/bloc/produk_bloc.dart';
 import 'package:tokokita/model/produk.dart';
 import 'package:tokokita/ui/produk_form.dart';
 import 'package:tokokita/ui/produk_page.dart';
+import 'package:tokokita/widget/warning_dialog.dart';
 
+// ignore: must_be_immutable
 class ProdukDetail extends StatefulWidget {
-  final Produk? produk;
+  Produk? produk;
 
-  const ProdukDetail({Key? key, this.produk}) : super(key: key);
+  ProdukDetail({Key? key, this.produk}) : super(key: key);
 
   @override
   _ProdukDetailState createState() => _ProdukDetailState();
@@ -17,82 +20,37 @@ class _ProdukDetailState extends State<ProdukDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Detail Produk - Edwi'),
+        title: const Text('Detail Produk'),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Card(
-                elevation: 4,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _detailRow("Kode Produk", widget.produk!.kodeProduk!),
-                      const SizedBox(height: 16),
-                      _detailRow("Nama Produk", widget.produk!.namaProduk!),
-                      const SizedBox(height: 16),
-                      _detailRow(
-                        "Harga",
-                        "Rp. ${widget.produk!.hargaProduk.toString()}",
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(height: 30),
-              _tombolHapusEdit(),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _detailRow(String label, String value) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          flex: 2,
-          child: Text(
-            label,
-            style: const TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 16,
+      body: Center(
+        child: Column(
+          children: [
+            Text(
+              "Kode : ${widget.produk!.kodeProduk}",
+              style: const TextStyle(fontSize: 20.0),
             ),
-          ),
+            Text(
+              "Nama : ${widget.produk!.namaProduk}",
+              style: const TextStyle(fontSize: 18.0),
+            ),
+            Text(
+              "Harga : Rp. ${widget.produk!.hargaProduk.toString()}",
+              style: const TextStyle(fontSize: 18.0),
+            ),
+            _tombolHapusEdit(),
+          ],
         ),
-        const Text(": ", style: TextStyle(fontWeight: FontWeight.bold)),
-        Expanded(
-          flex: 3,
-          child: Text(
-            value,
-            style: const TextStyle(fontSize: 16),
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
+      ),
     );
   }
 
-  // Tombol Edit & Delete
   Widget _tombolHapusEdit() {
     return Row(
       mainAxisSize: MainAxisSize.min,
       children: [
         // Tombol Edit
-        ElevatedButton.icon(
-          icon: const Icon(Icons.edit),
-          label: const Text("EDIT"),
+        OutlinedButton(
+          child: const Text("EDIT"),
           onPressed: () {
             Navigator.push(
               context,
@@ -105,50 +63,49 @@ class _ProdukDetailState extends State<ProdukDetail> {
           },
         ),
 
-        const SizedBox(width: 10),
-
         // Tombol Hapus
-        ElevatedButton.icon(
-          icon: const Icon(Icons.delete),
-          label: const Text("DELETE"),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: Colors.red,
-          ),
+        OutlinedButton(
+          child: const Text("DELETE"),
           onPressed: () => confirmHapus(),
         ),
       ],
     );
   }
 
-  // Konfirmasi Hapus
   void confirmHapus() {
     AlertDialog alertDialog = AlertDialog(
-      title: const Text("Konfirmasi Hapus"),
       content: const Text("Yakin ingin menghapus data ini?"),
       actions: [
-        // Tombol Batal
-        TextButton(
-          child: const Text("Batal"),
-          onPressed: () => Navigator.pop(context),
-        ),
         // Tombol Hapus
-        TextButton(
-          child: const Text("Hapus"),
+        OutlinedButton(
+          child: const Text("Ya"),
           onPressed: () {
-            // TODO: Tambahkan fungsi hapus ke database
-            Navigator.of(context).pop();
-            Navigator.of(context).pushReplacement(
-              MaterialPageRoute(
-                builder: (context) => const ProdukPage(),
-              ),
-            );
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(
-                content: Text('Produk berhasil dihapus!'),
-                duration: Duration(seconds: 2),
-              ),
+            ProdukBloc.deleteProduk(
+              id: int.parse(widget.produk!.id!),
+            ).then(
+              (value) => {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => const ProdukPage(),
+                  ),
+                )
+              },
+              onError: (error) {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) => const WarningDialog(
+                    description: "Hapus gagal, silahkan coba lagi",
+                  ),
+                );
+              },
             );
           },
+        ),
+
+        // Tombol Batal
+        OutlinedButton(
+          child: const Text("Batal"),
+          onPressed: () => Navigator.pop(context),
         ),
       ],
     );
