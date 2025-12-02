@@ -31,10 +31,11 @@
 ### 1️⃣ **Halaman Login (Login Page)**
 
 <details>
-<summary><b>📸 Screenshot & Penjelasan Halaman Login</b></summary>
+<summary><b><img width="611" height="812" alt="Image" src="https://github.com/user-attachments/assets/f84e1318-ad8f-4ee0-962d-da36d8f4f7a0" />
+<img width="610" height="808" alt="Image" src="https://github.com/user-attachments/assets/bf646d4e-a66f-4afd-a998-df8e59bc01cb" /></b></summary>
 
 #### Komponen UI:
-- **AppBar** dengan judul "Login - Edwi"
+- **AppBar** dengan judul "Login"
 - **Text Field Email** - Input untuk email pengguna
 - **Text Field Password** - Input untuk password (tersembunyi dengan asterisk)
 - **Tombol Login** - Untuk melakukan proses autentikasi
@@ -59,12 +60,6 @@ validator: (value) {
 }
 ```
 
-#### Styling:
-- ✨ Input field dengan border outline dan icon prefix
-- ✨ Tombol login dengan full-width dan warna biru
-- ✨ Padding konsisten dengan spacing Material Design
-- ✨ Text warna biru untuk link registrasi (InkWell)
-
 #### Navigasi:
 - ✅ Login berhasil → ke halaman **Produk Page**
 - ✅ Klik registrasi → ke halaman **Registrasi Page**
@@ -76,10 +71,11 @@ validator: (value) {
 ### 2️⃣ **Halaman Registrasi (Registrasi Page)**
 
 <details>
-<summary><b>📸 Screenshot & Penjelasan Halaman Registrasi</b></summary>
+<summary><b><img width="611" height="812" alt="Image" src="https://github.com/user-attachments/assets/a649f713-52c1-47d2-be34-25da824b37b2" />
+<img width="622" height="811" alt="Image" src="https://github.com/user-attachments/assets/1889b6ac-c010-4a25-ab5e-2ddc4b4acbf6" /></b></summary>
 
 #### Komponen UI:
-- **AppBar** dengan judul "Registrasi - Edwi"
+- **AppBar** dengan judul "Registrasi"
 - **Text Field Nama** - Input nama lengkap (minimal 3 karakter)
 - **Text Field Email** - Input email dengan validasi format
 - **Text Field Password** - Input password (minimal 6 karakter)
@@ -129,14 +125,8 @@ validator: (value) {
 }
 ```
 
-#### Styling:
-- ✨ Design konsisten dengan halaman login
-- ✨ Icon untuk setiap input field
-- ✨ Warna error untuk feedback validasi
-- ✨ Loading state pada tombol saat registrasi
-
 #### Navigasi:
-- ✅ Registrasi berhasil → ke halaman **Login Page** (dengan pesan sukses)
+- ✅ Registrasi berhasil → ke halaman **Login Page**
 - ✅ Klik login → ke halaman **Login Page**
 
 </details>
@@ -146,10 +136,10 @@ validator: (value) {
 ### 3️⃣ **Halaman Daftar Produk (Produk Page)**
 
 <details>
-<summary><b>📸 Screenshot & Penjelasan Halaman Daftar Produk</b></summary>
+<summary><b><img width="618" height="813" alt="Image" src="https://github.com/user-attachments/assets/d4861180-79cf-43af-a454-ebcf8bca85b8" /></b></summary>
 
 #### Komponen UI:
-- **AppBar** dengan judul "List Produk - Edwi"
+- **AppBar** dengan judul "List Produk"
 - **Icon Tambah (+)** di kanan AppBar untuk menambah produk baru
 - **ListView** dengan card item produk
 - **Drawer Menu** untuk navigasi
@@ -208,12 +198,6 @@ List<Produk> listProduk = [
 - ✅ Buka drawer → menu logout
 - ✅ Pull to refresh → reload data
 
-#### Styling:
-- ✨ Card dengan shadow dan border radius
-- ✨ Icon shopping cart untuk visual appeal
-- ✨ Warna konsisten (blue primary)
-- ✨ Material Design spacing
-
 #### Navigasi:
 - ✅ Klik item → ke halaman **Produk Detail**
 - ✅ Klik (+) → ke halaman **Produk Form** (tambah mode)
@@ -226,7 +210,8 @@ List<Produk> listProduk = [
 ### 4️⃣ **Halaman Form Produk (Produk Form)**
 
 <details>
-<summary><b>📸 Screenshot & Penjelasan Halaman Form Produk</b></summary>
+<summary><b><img width="617" height="812" alt="Image" src="https://github.com/user-attachments/assets/3a2a3ef3-95f0-422e-b64c-143ed63c4669" />
+<img width="622" height="817" alt="Image" src="https://github.com/user-attachments/assets/63ae934f-99be-4b55-99e2-f4dd43e87acf" /></b></summary>
 
 #### Komponen UI:
 - **AppBar** dengan judul dinamis ("TAMBAH PRODUK" atau "UBAH PRODUK")
@@ -332,12 +317,6 @@ void _submit() {
 }
 ```
 
-#### Styling:
-- ✨ OutlineInputBorder pada semua field
-- ✨ Icon khusus untuk setiap field
-- ✨ Full-width button dengan padding
-- ✨ Material Design 3 styling
-- ✨ Error text dalam bahasa Indonesia
 
 #### Navigasi:
 - ✅ Submit berhasil → kembali ke **Produk Page**
@@ -350,7 +329,7 @@ void _submit() {
 ### 5️⃣ **Halaman Detail Produk (Produk Detail)**
 
 <details>
-<summary><b>📸 Screenshot & Penjelasan Halaman Detail Produk</b></summary>
+<summary><b><img width="618" height="810" alt="Image" src="https://github.com/user-attachments/assets/fd161de6-023d-4447-881a-a89c4cbecba1" /></b></summary>
 
 #### Komponen UI:
 - **AppBar** dengan judul "Detail Produk - Edwi"
@@ -477,13 +456,6 @@ void _confirmHapus() {
   );
 }
 ```
-
-#### Styling:
-- ✨ Card dengan shadow dan spacing
-- ✨ Divider antara setiap field
-- ✨ Button dengan icon dan label
-- ✨ Alert dialog dengan custom styling
-- ✨ SnackBar untuk feedback
 
 #### Navigasi:
 - ✅ Klik Edit → ke halaman **Produk Form** (dengan data edit)
